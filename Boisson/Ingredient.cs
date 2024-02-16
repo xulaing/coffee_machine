@@ -6,24 +6,41 @@ using System.Threading.Tasks;
 
 namespace Distributeur_De_Boisson_Chaude.Boisson
 {
-    public class Ingredient
+    public interface IIngredient
+    {
+        string Name { get; }
+        decimal Cost { get; }
+    }
+
+    public class Ingredient : IIngredient
     {
         public string Name { get; }
         public decimal Cost { get; }
-
-        // Définition des ingrédients comme des propriétés statiques pour un accès facile
-        public static Ingredient Café { get; } = new Ingredient("Café", 1);
-        public static Ingredient Sucre { get; } = new Ingredient("Sucre", 0.1m);
-        public static Ingredient Crème { get; } = new Ingredient("Crème", 0.5m);
-        public static Ingredient Thé { get; } = new Ingredient("Thé", 2);
-        public static Ingredient Eau { get; } = new Ingredient("Eau", 0.2m);
-        public static Ingredient Chocolat { get; } = new Ingredient("Chocolat", 1);
-        public static Ingredient Lait { get; } = new Ingredient("Lait", 0.4m);
 
         public Ingredient(string name, decimal cost)
         {
             Name = name;
             Cost = cost;
+        }
+    }
+
+    public static class IngredientsProvider
+    {
+        // Initialisation de la liste des ingrédients
+        public static List<IIngredient> GetIngredients()
+        {
+            var ingredients = new List<IIngredient>
+        {
+            new Ingredient("Café", 1),
+            new Ingredient("Sucre", 0.1m),
+            new Ingredient("Crème", 0.5m),
+            new Ingredient("Thé", 2),
+            new Ingredient("Eau", 0.2m),
+            new Ingredient("Chocolat", 1),
+            new Ingredient("Lait", 0.4m)
+        };
+
+            return ingredients;
         }
     }
 }

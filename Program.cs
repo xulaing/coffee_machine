@@ -10,10 +10,10 @@ namespace Distributeur
         static void Main(string[] args)
         {
             // Initialisation des données
-            List<Ingredient> ingredients = Menu.GetIngredients();
-            List<Recipe> recipes = Menu.GetRecipes(ingredients);
+            List<IIngredient> ingredients = IngredientsProvider.GetIngredients();
+            List<Recipe> recipes = RecipesProvider.GetRecipes(ingredients);
             Commande commande = new Commande(recipes);
-            Vente vente = new Vente(commande);
+            Vente vente = new Vente(commande, 0.3m); // Initialisation de la marge à 30%
 
             // Interface utilisateur
             while (true)
@@ -41,7 +41,7 @@ namespace Distributeur
                         {
                             string selectedRecipeName = recipes[choice - 1].Name;
                             decimal price = vente.GetSellingPrice(selectedRecipeName);
-                            Console.WriteLine($"Prix de vente de {selectedRecipeName} : {price} €");
+                            Console.WriteLine($"Prix de vente de {selectedRecipeName} : {price}€");
                         }
                         catch (ArgumentException)
                         {

@@ -7,8 +7,7 @@ using Distributeur_De_Boisson_Chaude.Boisson;
 
 namespace Distributeur_De_Boisson_Chaude.Machine
 {
-    public class Commande
-    {
+    public class Commande {
         private readonly List<Recipe> _recipes;
 
         public Commande(List<Recipe> recipes)
@@ -19,22 +18,32 @@ namespace Distributeur_De_Boisson_Chaude.Machine
         // Calcul du prix de la recette
         public decimal GetRecipeCost(string recipeName)
         {
-            // Récupération de la recette de la boisson choisie
-            var recipe = _recipes.Find(r => r.Name.Equals(recipeName, StringComparison.OrdinalIgnoreCase));
+            var recipe = FindRecipeByName(recipeName);
             if (recipe == null)
             {
                 throw new ArgumentException("Recipe not found", nameof(recipeName));
             }
 
-            // Calcul du prix en foncion des ingrédients et quantité
+            decimal totalCost = CalculateTotalCost(recipe);
+            return totalCost;
+        }
+
+        // Recherche d'une recette par son nom
+        private Recipe FindRecipeByName(string recipeName)
+        {
+            return _recipes.Find(r => r.Name.Equals(recipeName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        // Calcul du coût total d'une recette
+        private decimal CalculateTotalCost(Recipe recipe)
+        {
             decimal totalCost = 0;
             foreach (var ingredientAndQuantity in recipe.Ingredients)
             {
-                // ingredientAndQuantity est un dictionnaire <Ingredient, int> contenant l'ingrédient en clé et la quantité en valeur
                 totalCost += ingredientAndQuantity.Key.Cost * ingredientAndQuantity.Value;
             }
-
             return totalCost;
         }
     }
 }
+

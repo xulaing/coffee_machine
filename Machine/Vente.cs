@@ -9,21 +9,20 @@ namespace Distributeur_De_Boisson_Chaude.Machine
     public class Vente
     {
         private readonly Commande _commande;
-        // Marge de 30%
-        private const decimal Marge = 0.3m;
+        private readonly decimal _marge; // Marge 
 
-        public Vente(Commande commande)
+        public Vente(Commande commande, decimal marge)
         {
             _commande = commande;
+            _marge = marge;
         }
 
         // Calcul du prix de vente (coût de la recette + marge)
         public decimal GetSellingPrice(string recipeName)
         {
             decimal cost = _commande.GetRecipeCost(recipeName);
-            decimal sellingPrice = cost * (1 + Marge);
+            decimal sellingPrice = cost * (1 + _marge);
             return sellingPrice;
         }
     }
-
 }
